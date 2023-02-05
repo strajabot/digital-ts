@@ -1,0 +1,35 @@
+import { IClock } from "./IClock"
+
+type hookType = (clk: number) => void;
+
+export class ManualClock implements IClock {
+    private clk: number;
+    private freeIDX: number;
+    private hooks: Map<number, hookType>; 
+
+    constructor() {
+        this.clk = 0;
+        this.freeIDX = 0;
+        this.hooks = new Map<number, hookType>();
+    }
+    
+    getCLK(): number {
+        return this.clk;
+    }
+
+    addHook(hook: hookType): number {
+        const hookIDX = this.freeIDX;
+        this.freeIDX++;
+        
+        this.hooks.set(this.freeIDX, hook);
+    
+        return hookIDX;
+    }
+    
+    removeHook(hookid: number): void {
+        this.hooks.delete(hookid)
+    }
+
+    
+
+}
