@@ -16,10 +16,9 @@ export class InputPin {
     }
 
     update(newState: PinState) {
-        //shouldn't happen??
         if(this.state !== newState) return;
         this.state = newState;
-        this.component.update(); 
+        this.component.update(this);
     }
 }
 
@@ -34,28 +33,52 @@ export class OutputPin {
     }
 
     update(newState: PinState) {
-        //shouldn't happen??
         if(this.state !== newState) return;
         this.state = newState;
-        this.component.update(); 
+        this.dest.forEach((pin) => { pin.update(newState) });
     }
 
 }
 
+export class InputBus {
+    
+    size: number;
+    inputs: InputPin[] = [];
 
-export class OutputPin {
+    constructor(size: number, inputs: InputPin[], defaultSource: OutputPin | OutputBus) {
+        this.size = size;
+        //todo:implement;
+    }
 
-    private dest: InputPin[];
-    priavte
+    get(idx: number): InputPin {
+        return this.inputs[idx];
+    }
+
 
 }
 
+export class OutputBus {
+    
+    size: number;
+    outputs: OutputPin[] = [];
 
+    constructor(size: number, outputs: OutputPin[]) {
+        this.size = size;
+        //todo:implement;
+    }
+
+    get(idx: number): OutputPin {
+        return this.outputs[idx];
+    }
+
+} 
 
 export class Component {
+
+
+    update(pin: InputPin): void {
+        //todo:
+    }
+
     
-
-    update();
-    hook();
-
 }
