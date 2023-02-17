@@ -1,4 +1,4 @@
-import { Component } from "../Compontent";
+import { Component } from "../Component";
 import { OutputPin } from "./OutputPin";
 import { PinState } from "./PinState";
 
