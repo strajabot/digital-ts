@@ -4,7 +4,7 @@ import { InputPin } from "./InputPin";
 
 export class OutputPin {
     
-    private component: Component<any>;
+    readonly component: Component<any>;
 
     constructor(component: Component<any>) {
         this.component = component;
