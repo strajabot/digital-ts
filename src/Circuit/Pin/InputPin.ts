@@ -1,17 +1,18 @@
 import { Component } from "../Component";
-import { PinState } from "./PinState";
+import { Pin } from "./Pin";
+import { PinState, PinValue } from "./PinState";
 
-export class InputPin {
+export class InputPin extends Pin {
     
-    readonly component: Component<any>;
-    readonly unusedState: PinState;
+    readonly unusedValue: PinValue;
 
-    constructor(component: Component<any>, unusedState: PinState) {
-        this.component = component;
-        this.unusedState = unusedState;
+    constructor(component: Component<any>, unusedValue: PinValue) {
+		super(component);
+		this.unusedValue = unusedValue;
     }
     
-    createState(): PinState {
-        return PinState.UNDEF;
+    createState(): Map<Pin, PinState> {
+		const tuple: [Pin, PinState] = [this, new PinState(PinValue.UNDEF)];
+        return new Map([tuple]);
     }
 }

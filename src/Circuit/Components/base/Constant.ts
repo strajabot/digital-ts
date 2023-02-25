@@ -1,5 +1,6 @@
 import { Component, ComponentState } from "../../Component";
 import { OutputBus } from "../../Pin/OutputBus";
+import { Pin } from "../../Pin/Pin";
 import { PinState } from "../../Pin/PinState";
 
 export class ConstantState implements ComponentState {
@@ -18,20 +19,19 @@ export class Constant implements Component<ConstantState> {
 
     constructor(width: number, constant: PinState[]) {
         this.width = width;
-        this.constant = [];
+        this.constant = constant;
         this.outputBus = new OutputBus(this, width);
     }
 
-    createState(): ConstantState {
-        const outputBusState = this.outputBus.createState();
-        return new ConstantState(outputBusState);
+	createState(): { pinStateMap: Map<Pin, PinState>, componentState: ConstantState} {
+        const outputStateMap = this.outputBus.createState();
+		const outputState: PinState[] = [...outputStateMap.values()];
+		return { pinStateMap: outputStateMap, componentState: new ConstantState(outputState) };
     } 
 
     compute(state: ConstantState): boolean {
-        const outputState = state.outputBus;
-        if(state.outputBus === this.constant) return false;
-        state.outputBus = this.constant;
-        return true; 
-    }
+		//TODO: implement;
+		return false;
+	}
 
 }

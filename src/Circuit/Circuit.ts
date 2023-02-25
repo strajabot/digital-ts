@@ -1,20 +1,24 @@
-import { Component } from "./Component";
+import { Component, ComponentState } from "./Component";
 import { MissingComponentError } from "./MissingComponentError";
 import { InputPin } from "./Pin/InputPin";
 import { OutputPin } from "./Pin/OutputPin";
+import { Pin } from "./Pin/Pin";
+import { PinState } from "./Pin/PinState";
 import { WireError } from "./WireError";
 
 export class Circuit {
 
     readonly wires: Map<OutputPin, InputPin[]>;
     readonly outputNames: Map<string, OutputPin>;
+	readonly components: Component<any>[];
 
     constructor(components: Component<any>[], wires: Map<OutputPin, InputPin[]>, outputNames?: Map<string, OutputPin>) {
         if(!Circuit.verifyWires(wires)) throw new WireError();
         if(!Circuit.verifyComponents(components, wires, outputNames)) throw new MissingComponentError();
         this.wires = wires;
         this.outputNames = outputNames? outputNames: new Map(); 
-    }
+		this.components = components
+	}
 
     static verifyWires(wires: Map<OutputPin, InputPin[]>): boolean {
         const inputSet = new Set();
@@ -44,5 +48,19 @@ export class Circuit {
         return true;
     }
 
-    
+
+	createState(): {pinStateMap: Map<Pin, PinState>, circuitState: Map<Component<any>, ComponentState>} {
+		//TODO:
+		const pinStateMapUnion: Map<Pin, PinState> = new Map();
+		const circuitState: Map<Component<any>, ComponentState> = new Map();
+		for(let component of this.components) {
+			const {pinStateMap, componentState} = component.createState();
+			circuitState.set(component, componentState);
+			for(let entry of pinStateMap) {
+				pinStateMapUnion.set(entry[0], entry[1]);
+			}
+		}
+		return {pinStateMap: pinStateMapUnion, circuitState: circuitState };
+	}
+
 }

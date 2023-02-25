@@ -1,5 +1,6 @@
 import { Component } from "../Component";
 import { OutputPin } from "./OutputPin";
+import { Pin } from "./Pin";
 import { PinState } from "./PinState";
 
 export class OutputBus {
@@ -17,10 +18,15 @@ export class OutputBus {
         this.outputs = tempInputArr;
     }
 
-    createState(): PinState[] {
-        const outputState: PinState[] = [];
+    createState(): Map<Pin, PinState> {
+		const outputState: Map<Pin, PinState> = new Map();
         for(let i=0; i<this.size; i++) {
-            outputState.push(PinState.UNDEF);
+			const pin = this.outputs[i];
+			const state = pin.createState().get(pin);
+			if(state === undefined) {
+				throw new Error("InputPin::createState() returned invalid state map");
+			}
+			outputState.set(pin, state);
         }
         return outputState;
     }

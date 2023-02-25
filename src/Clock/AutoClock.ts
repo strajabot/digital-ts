@@ -1,9 +1,8 @@
 import { IClock } from "./IClock"
 
-export class AutoClock implements Clock {
+//export class AutoClock implements Clock {
 
-    get CLK
 
-}
+//}
 
 

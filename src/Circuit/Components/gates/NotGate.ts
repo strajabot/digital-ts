@@ -1,7 +1,8 @@
 import { Component, ComponentState } from "../../Component";
 import { InputBus } from "../../Pin/InputBus";
 import { OutputBus } from "../../Pin/OutputBus";
-import { PinState } from "../../Pin/PinState";
+import {Pin} from "../../Pin/Pin";
+import { PinState, PinValue } from "../../Pin/PinState";
 
 export class NotGateState implements ComponentState {
     inputBus: PinState[];
@@ -20,14 +21,20 @@ export class NotGate implements Component<NotGateState> {
     
     constructor(size: number) {
         this.size = size;
-        this.inputBus = new InputBus(this, size, PinState.UNDEF);
+        this.inputBus = new InputBus(this, size, PinValue.UNDEF);
         this.outputBus = new OutputBus(this, size);
     }
 
-    createState(): NotGateState {
-        const inputState = this.inputBus.createState();
-        const outputState = this.outputBus.createState();
-        return new NotGateState(inputState, outputState);
+    createState():{pinStateMap: Map<Pin, PinState>, componentState: NotGateState }{
+        const inputStateMap = this.inputBus.createState();
+		const outputStateMap= this.outputBus.createState();
+
+		const inputState: PinState[] = [...inputStateMap.values()];
+		const outputState: PinState[] = [...outputStateMap.values()];
+
+		const pinStateMap = new Map([...inputStateMap, ...outputStateMap]);
+		const componentState = new NotGateState(inputState, outputState);
+		return {pinStateMap: pinStateMap, componentState: componentState};
     }
 
     compute(state: NotGateState): boolean {    
@@ -37,7 +44,7 @@ export class NotGate implements Component<NotGateState> {
         //check undefined state;
         let isUndef: boolean = false;
         for(let i=0; i<this.size; i++) {
-            if(inputBusState[i] !== PinState.UNDEF) continue;
+            if(inputBusState[i].value !== PinValue.UNDEF) continue;
             isUndef = true; 
             break;
         }
@@ -45,10 +52,10 @@ export class NotGate implements Component<NotGateState> {
         //update output state;
         let isChanged = false;
         for(let i=0; i<this.size; i++) {
-            let nextState = inputBusState[i] == PinState.HIGH? PinState.LOW: PinState.HIGH;
-            nextState = isUndef? PinState.UNDEF: nextState; 
-            if(outputBusState[i] === nextState) continue;
-            outputBusState[i] = nextState;
+            let nextState = inputBusState[i].value == PinValue.HIGH? PinValue.LOW: PinValue.HIGH;
+            nextState = isUndef? PinValue.UNDEF: nextState; 
+            if(outputBusState[i].value === nextState) continue;
+            outputBusState[i].value = nextState;
             isChanged = true;
         }
         return isChanged;
