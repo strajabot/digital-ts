@@ -2,8 +2,8 @@
 export class PinState {
 	value: PinValue;
 	
-	constructor(pinValue: PinValue) {
-		this.pinValue = pinValue;
+	constructor(value: PinValue) {
+		this.value = value;
 	}
 
 }
