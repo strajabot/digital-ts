@@ -1,7 +1,7 @@
 import { Component, ComponentState } from "../../Component";
-import { OutputBus } from "../../Pin/OutputBus";
-import { Pin } from "../../Pin/Pin";
-import { PinState } from "../../Pin/PinState";
+import { OutputBus } from "../../Base/OutputBus";
+import { Pin } from "../../Base/Pin";
+import { PinState } from "../../Base/PinState";
 
 export class ConstantState implements ComponentState {
     outputBus: PinState[];

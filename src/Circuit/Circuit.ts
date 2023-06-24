@@ -1,9 +1,9 @@
 import { Component, ComponentState } from "./Component";
 import { MissingComponentError } from "./MissingComponentError";
-import { InputPin } from "./Pin/InputPin";
-import { OutputPin } from "./Pin/OutputPin";
-import { Pin } from "./Pin/Pin";
-import { PinState } from "./Pin/PinState";
+import { InputPin } from "./Base/InputPin";
+import { OutputPin } from "./Base/OutputPin";
+import { Pin } from "./Base/Pin";
+import { PinState } from "./Base/PinState";
 import { WireError } from "./WireError";
 
 export class Circuit {

@@ -1,8 +1,8 @@
 import { Component, ComponentState } from "../../Component";
-import { InputBus } from "../../Pin/InputBus";
-import { OutputBus } from "../../Pin/OutputBus";
-import {Pin} from "../../Pin/Pin";
-import { PinState, PinValue } from "../../Pin/PinState";
+import { InputBus } from "../../Base/InputBus";
+import { OutputBus } from "../../Base/OutputBus";
+import {Pin} from "../../Base/Pin";
+import { PinState, PinValue } from "../../Base/PinState";
 
 export class NotGateState implements ComponentState {
     inputBus: PinState[];
@@ -14,18 +14,19 @@ export class NotGateState implements ComponentState {
     }
 }
 
-export class NotGate implements Component<NotGateState> {
+export class NotGate extends Component<NotGateState> {
     private size: number;
     private inputBus: InputBus;
     private outputBus: OutputBus;
     
-    constructor(size: number) {
-        this.size = size;
-        this.inputBus = new InputBus(this, size, PinValue.UNDEF);
-        this.outputBus = new OutputBus(this, size);
+    constructor(width: number) {
+        super()
+        this.size = width;
+        this.inputBus = this.createInputBus(PinValue.UNDEF, width);
+        this.outputBus = this.createOutputBus(width);
     }
 
-    createState():{pinStateMap: Map<Pin, PinState>, componentState: NotGateState }{
+    createState(): NotGateState {
         const inputStateMap = this.inputBus.createState();
 		const outputStateMap= this.outputBus.createState();
 

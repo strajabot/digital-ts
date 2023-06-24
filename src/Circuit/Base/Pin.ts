@@ -9,7 +9,7 @@ export abstract class Pin {
 		this.component = component;
 	}
 
-	abstract createState(): Map<Pin, PinState>;
+	abstract createState(): PinState;
 }
 
 

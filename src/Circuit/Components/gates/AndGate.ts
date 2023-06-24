@@ -1,8 +1,8 @@
 import { Component, ComponentState } from "../../Component";
-import { InputBus } from "../../Pin/InputBus";
-import { OutputBus } from "../../Pin/OutputBus";
-import { Pin } from "../../Pin/Pin";
-import { PinState, PinValue } from "../../Pin/PinState";
+import { InputBus } from "../../Base/InputBus";
+import { OutputBus } from "../../Base/OutputBus";
+import { Pin } from "../../Base/Pin";
+import { PinState, PinValue } from "../../Base/PinState";
 
 
 export class AndGateState implements ComponentState {
@@ -38,7 +38,7 @@ export class AndGate implements Component<AndGateState> {
         const inputState: PinState[][] = [];
         for(let i=0; i<this.size; i++) {
 			const inputStateMap = this.input[i].createState();
-			const inputState = [...inputStateMap.]
+			const inputState = [...inputStateMap]
 			inputState.push(this.input[i].createState());
         }
         const outputBusState: PinState[] = this.outputBus.createState();
