@@ -12,9 +12,8 @@ export class DuplexPin extends Pin {
 		this.unusedValue = unusedValue;
     }
     
-    createState(): Map<Pin, PinState> {
-        //TODO: implement;
-        throw new Error("Method not implemented.");
+    createState(): PinState {
+        return new PinState(this, this.unusedValue);
     }
     
 }

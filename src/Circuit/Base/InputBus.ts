@@ -1,6 +1,5 @@
 import { Component } from "../Component";
 import { InputPin } from "./InputPin";
-import { Pin } from "./Pin";
 import { PinState, PinValue } from "./PinState";
 
 export class InputBus {

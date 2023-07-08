@@ -32,8 +32,7 @@ export class NotGate extends Component<NotGateState> {
 
 		const inputState: PinState[] = [...inputStateMap.values()];
 		const outputState: PinState[] = [...outputStateMap.values()];
-
-		const pinStateMap = new Map([...inputStateMap, ...outputStateMap]);
+        
 		const componentState = new NotGateState(inputState, outputState);
 		return {pinStateMap: pinStateMap, componentState: componentState};
     }

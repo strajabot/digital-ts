@@ -2,10 +2,11 @@ import { Component } from "../Component";
 import { InputPin } from "./InputPin";
 import { Pin } from "./Pin";
 import { PinState, PinValue } from "./PinState";
+import { Wire, WireAlreadyConnectedError } from "./Wire";
 
 export class OutputPin extends Pin {
     
-    private out: Wire|null = null;
+    private out?: Wire;
 
     constructor(component: Component<any>) {
 		super(component);
@@ -15,14 +16,17 @@ export class OutputPin extends Pin {
 		return new PinState(this, PinValue.UNDEF);
     }
 
-    connect(pin: InputPin): void {
-        if(this.wire === null) this.out = new Wire()    
-        pin.wire(this.wire);
+    connectInput(pin: InputPin): void {
+        if(!this.out) this.out = new Wire()    
+        pin.connectWire(this.out);
     }
 
-    wire(wire: Wire): void {
-        if(this.wire !== null) throw new WireAlreadyExistError();
-        this.wire = wire; 
+    connectWire(wire: Wire): void {
+        if(this.out) throw new WireAlreadyConnectedError();
+        this.out = wire; 
     }
 
+    getWire(): Wire|undefined {
+        return this.out;
+    }
 }

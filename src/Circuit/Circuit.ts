@@ -6,13 +6,14 @@ import { Pin } from "./Base/Pin";
 import { PinState } from "./Base/PinState";
 import { WireError } from "./WireError";
 
+
 export class Circuit {
 
     readonly wires: Map<OutputPin, InputPin[]>;
     readonly outputNames: Map<string, OutputPin>;
 	readonly components: Component<any>[];
 
-    constructor(components: Component<any>[], wires: Map<OutputPin, InputPin[]>, outputNames?: Map<string, OutputPin>) {
+    constructor(components: Component<any>[], wires: Map<Pin, Wire>, outputNames?: Map<string, OutputPin>) {
         if(!Circuit.verifyWires(wires)) throw new WireError();
         if(!Circuit.verifyComponents(components, wires, outputNames)) throw new MissingComponentError();
         this.wires = wires;
@@ -62,5 +63,5 @@ export class Circuit {
 		}
 		return {pinStateMap: pinStateMapUnion, circuitState: circuitState };
 	}
-
+    
 }
