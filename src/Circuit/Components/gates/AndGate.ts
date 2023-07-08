@@ -34,7 +34,7 @@ export class AndGate implements Component<AndGateState> {
         this.input = tempBusArr;
     }
 
-    createState(): { pinStateMap: Map<Pin, PinState>, componentState: AndGateState } {
+    createState(): { componentState: AndGateState } {
         const inputState: PinState[][] = [];
         for(let i=0; i<this.size; i++) {
 			const inputStateMap = this.input[i].createState();

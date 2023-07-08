@@ -16,7 +16,7 @@ export abstract class Component<T extends ComponentState> {
     private outputPins: OutputPin[] = [];
     private duplexPins: DuplexPin[] = [];
     
-    abstract createState(): {pinStateMap: Map<Pin, PinState>, componentState: T};
+    abstract createState(): T;
     abstract cloneState(state: T): T;
     abstract compute(state: T): boolean;
 

@@ -1,7 +1,6 @@
 import { Component, ComponentState } from "../../Component";
 import { InputBus } from "../../Base/InputBus";
 import { OutputBus } from "../../Base/OutputBus";
-import {Pin} from "../../Base/Pin";
 import { PinState, PinValue } from "../../Base/PinState";
 
 export class NotGateState implements ComponentState {
@@ -19,8 +18,9 @@ export class NotGate extends Component<NotGateState> {
     private inputBus: InputBus;
     private outputBus: OutputBus;
     
-    constructor(width: number) {
+    constructor(width?: number) {
         super()
+        if(!width) width = 1;
         this.size = width;
         this.inputBus = this.createInputBus(PinValue.UNDEF, width);
         this.outputBus = this.createOutputBus(width);
@@ -33,9 +33,10 @@ export class NotGate extends Component<NotGateState> {
 		const inputState: PinState[] = [...inputStateMap.values()];
 		const outputState: PinState[] = [...outputStateMap.values()];
         
-		const componentState = new NotGateState(inputState, outputState);
-		return {pinStateMap: pinStateMap, componentState: componentState};
+		return new NotGateState(inputState, outputState);
     }
+
+    
 
     compute(state: NotGateState): boolean {    
         const inputBusState = state.inputBus;
